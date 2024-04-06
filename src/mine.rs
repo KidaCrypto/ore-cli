@@ -30,12 +30,12 @@ impl Miner {
             std::thread::sleep(Duration::from_secs(1));
             let now_unix_timestamp = Utc::now().timestamp();
             let duration = START_AT - now_unix_timestamp;
-            let t = format_duration(duration);
-            stdout.write_all(b"\x1b[2J\x1b[3J\x1b[H").ok();
-            stdout
-                .write_all(format!("Waiting for mining to begin... {}\n", t).as_bytes())
-                .ok();
-            stdout.flush().ok();
+            // let t = format_duration(duration);
+            // stdout.write_all(b"\x1b[2J\x1b[3J\x1b[H").ok();
+            // stdout
+            //     .write_all(format!("Waiting for mining to begin... {}\n", t).as_bytes())
+            //     .ok();
+            // stdout.flush().ok();
             if START_AT.le(&now_unix_timestamp) {
                 break;
             }
@@ -48,16 +48,16 @@ impl Miner {
             let proof = get_proof(self.cluster.clone(), signer.pubkey()).await;
 
             // Escape sequence that clears the screen and the scrollback buffer
-            stdout.write_all(b"\x1b[2J\x1b[3J\x1b[H").ok();
-            stdout
-                .write_all(format!("Searching for valid hash...\n").as_bytes())
-                .ok();
+            // stdout.write_all(b"\x1b[2J\x1b[3J\x1b[H").ok();
+            // stdout
+            //     .write_all(format!("Searching for valid hash...\n").as_bytes())
+            //     .ok();
             let (next_hash, nonce) =
                 self.find_next_hash_par(proof.hash.into(), treasury.difficulty.into(), threads);
-            stdout
-                .write_all(format!("\nSubmitting hash for validation... \n").as_bytes())
-                .ok();
-            stdout.flush().ok();
+            // stdout
+            //     .write_all(format!("\nSubmitting hash for validation... \n").as_bytes())
+            //     .ok();
+            // stdout.flush().ok();
 
             // Submit mine tx.
             let mut bus_id = 0;
